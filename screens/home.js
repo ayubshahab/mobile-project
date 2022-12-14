@@ -14,8 +14,11 @@ import {
   TouchableOpacity,
   LogBox,
   ImageBackground,
-  Pressable 
+  Image,
+  Pressable,
 } from 'react-native';
+
+LogBox.ignoreAllLogs();
 
 // import uuid from 'react-native-uuid';
 import { Card } from '@rneui/base';
@@ -266,7 +269,9 @@ const Home = ({navigation, route}) => {
                                         <View style={styles.insideCardContainer}>
                                             {/* this is for the card main image on the left */}
                                             <View style={styles.imageColumn}>
-                                                <ImageBackground style={styles.cardImageView}>
+                                                <ImageBackground style={styles.cardImageView} source={{
+                                                        uri: element.image
+                                                    }}>
                                                     {element.status == "Sold" && <View style={{position:"absolute", width: 15, height:15, backgroundColor:"red", right: 10, top: 10, borderWidth:2, borderColor:"white", borderRadius:100}}></View>}
                                                     {element.status == "Available" && <View style={{position:"absolute", width: 15, height:15, backgroundColor:"green", right: 10, top: 10, borderWidth:2, borderColor:"white", borderRadius:100}}></View>}
                                                 </ImageBackground>
@@ -352,10 +357,8 @@ const styles = StyleSheet.create({
         height: 100,
         backgroundColor:"#f5dd4b", //light orange
         alignItems: "center",
-        borderWidth:1,
         borderStyle: 'solid',
         borderColor:"black",
-        borderRadius:20,
         marginRight:10
     },
 

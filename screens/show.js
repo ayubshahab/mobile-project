@@ -73,7 +73,9 @@ const CreateEvent = ({navigation, route}) => {
                     {/* selecting the image section */}
                     <Text style={{fontSize:25,marginBottom:10}}>Product Image</Text>
                     <View style={styles.sectionArea1}>
-                        <ImageBackground style={styles.titleImage}>
+                        <ImageBackground style={styles.titleImage} source={{
+                                                        uri: itemImage
+                                                    }}>
                             {itemStatus == "Sold" && <View style={{position:"absolute", width: 20, height:20, backgroundColor:"red", right: 10, top: 10, borderWidth:2, borderColor:"white", borderRadius:100}}></View>}
                             {itemStatus == "Available" && <View style={{position:"absolute", width: 20, height:20, backgroundColor:"green", right: 10, top: 10, borderWidth:2, borderColor:"white", borderRadius:100}}></View>}
                         </ImageBackground>

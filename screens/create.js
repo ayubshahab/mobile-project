@@ -12,7 +12,8 @@ import {
   Text,
   TextInput,
   ImageBackground,
-  Pressable
+  Pressable,
+  Image
 } from 'react-native';
 
 import ModalDropdown from 'react-native-modal-dropdown';
@@ -20,6 +21,7 @@ import PhoneInput from "react-native-phone-number-input";
 import uuid from 'react-native-uuid';
 import database from '@react-native-firebase/database';
 import {launchCamera} from 'react-native-image-picker';
+import storage from '@react-native-firebase/storage';
 
 
 const CreateEvent = ({navigation, route}) => {
@@ -46,19 +48,33 @@ const CreateEvent = ({navigation, route}) => {
     const [itemZipcode, setZipcode] = useState(''); 
     const [itemCountry, setCountry] = useState(''); 
 
-    
+    const[source, setSource]=useState('');
 
-    function addToDB(){
-        if(itemTitle == '' || itemPrice == '' || itemCategory == '' ||itemDescription == '' || itemStatus == '' || itemStreet == '' || itemState == '' || itemCity == '' || itemZipcode == '' || itemCountry == '' || itemPhoneNumber == ''){
+    const uniqueID = uuid.v4();
+    async function addToDB(){
+        if(source == '' || itemTitle == '' || itemPrice == '' || itemCategory == '' ||itemDescription == '' || itemStatus == '' || itemStreet == '' || itemState == '' || itemCity == '' || itemZipcode == '' || itemCountry == '' || itemPhoneNumber == ''){
             alert("Please fill out all form fields.");
             return;
         }
 
-        const uniqueID = uuid.v4();
-        database()
+
+        const filename = uniqueID + ".jpg";
+
+        await storage()
+        .ref(filename)
+        .putFile(source.replace('file://', ''))
+        .then(() => {console.log('uploaded', filename)});
+
+        let imageRef = storage().ref('/' + filename);
+        let url = await imageRef
+        .getDownloadURL()
+        .catch((e) => console.log('getting downloadURL of image error => ', e));
+        console.log('on press url', url);
+
+        await database()
         .ref('/posts')
         .child(uniqueID).set({
-            image: null,
+            image: url,
             title : itemTitle,
             price: itemPrice,
             category: itemCategory,
@@ -105,6 +121,8 @@ const CreateEvent = ({navigation, route}) => {
                 path: 'images',
             },
         };
+
+
         //const ImagePicker = require('react-native-image-picker');
         launchCamera(options, (response) => {
             console.log('Response = ', response);
@@ -117,13 +135,20 @@ const CreateEvent = ({navigation, route}) => {
                 console.log('User tapped custom button: ', response.customButton);
                 alert(response.customButton);
             } else {
-                const source = { uri: response.uri };
-                console.log('response', JSON.stringify(response));
+                const src = response.assets[0].uri;
+                // console.log(src);
+                // setSource(src);
+                // response.assets.map((element,index) => {
+                //     console.log(element);
+                // })
+                console.log('response', response);
+                console.log(response.assets[0].uri);
+                setSource(src);
                 // this.setState({
-                // filePath: response,
-                // fileData: response.data,
-                // fileUri: response.uri
-                // });
+                // filePath: response,rr
+                // fileData: response.data,s
+                // fileUri: response.uris
+                // })
             }
         }); 
     }
@@ -138,9 +163,11 @@ const CreateEvent = ({navigation, route}) => {
                     <Text style={{fontSize:25,marginBottom:10}}>Product Image</Text>
                     <View style={styles.sectionArea1}>
                         <Text style={{color:"white", fontSize:20, alignSelf:"flex-start", paddingTop:10, paddingBottom:10}}>Main Image</Text>
-                        <ImageBackground style={styles.titleImage}>
+                        <Image style={styles.titleImage} source={{
+                                uri: source
+                            }}>
                             
-                        </ImageBackground>
+                        </Image>
                         <Pressable style={styles.cameraButton} onPress={()=>getImage()}>
                             <Text style={{fontSize:20, color:"white"}}>Add Photo</Text>
                         </Pressable>

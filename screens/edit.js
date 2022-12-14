@@ -58,7 +58,7 @@ const CreateEvent = ({navigation, route}) => {
         await database()
         .ref('/posts')
         .child(uniqueID).set({
-            image: null,
+            image: itemImage,
             title : itemTitle,
             price: itemPrice,
             category: itemCategory,
@@ -107,7 +107,9 @@ const CreateEvent = ({navigation, route}) => {
                     <Text style={{fontSize:25,marginBottom:10}}>Product Image</Text>
                     <View style={styles.sectionArea1}>
                         <Text style={{color:"white", fontSize:20, alignSelf:"flex-start", paddingTop:10, paddingBottom:10}}>Main Image</Text>
-                        <ImageBackground style={styles.titleImage}>
+                        <ImageBackground style={styles.titleImage} source={
+                            {uri: itemImage}
+                        }>
                             
                         </ImageBackground>
                     </View>
