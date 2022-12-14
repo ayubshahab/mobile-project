@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "517548213988",
+    "project_id": "college-marketpalce",
+    "storage_bucket": "college-marketpalce.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:517548213988:android:199aee122499dcd18fcef1",
+        "android_client_info": {
+          "package_name": "com.reactnative_college_marketplace"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "517548213988-e7id3us7v8kpjkums44gnc34vo4ragti.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.reactnative_college_marketplace",
+            "certificate_hash": "1203664e94b6cb7ce34f2ba01d54af3ba06a0600"
+          }
+        },
+        {
+          "client_id": "517548213988-0qmc9ebmvk1oclo9j52gaa9qli1056g4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2r1CCMb-6Otujm1yY-BKAGMcSP0XdpFY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "517548213988-0qmc9ebmvk1oclo9j52gaa9qli1056g4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
